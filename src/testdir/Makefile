@@ -146,6 +146,9 @@ tinytests: $(SCRIPTS_TINY_OUT)
 RUN_VIMTEST = VIMRUNTIME=$(SCRIPTSOURCE) $(VALGRIND) $(VIMPROG) -f $(GUI_FLAG) -u util/unix.vim --gui-dialog-file guidialog
 
 newtests: newtestssilent
+	ldd "$(VIMPROG)"
+	pkg info
+	env
 	@/bin/sh -c "if test -f messages; then cat messages; fi"
 
 newtestssilent: $(NEW_TESTS_RES)
