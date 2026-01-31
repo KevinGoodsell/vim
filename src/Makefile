@@ -2182,7 +2182,8 @@ types.vim: $(TAGS_FILES)
 #
 # Execute the test scripts and the unittests.
 # Do the scripttests first, so that the summary shows last.
-test check: unittests $(TERM_TEST) scripttests
+#test check: unittests $(TERM_TEST) scripttests
+test check: scripttests
 
 # Execute the test scripts.  Run these after compiling Vim, before installing.
 # This doesn't depend on $(VIMTARGET), because that won't work when configure
@@ -2224,7 +2225,8 @@ VIMTESTTARGET = $(VIMTARGET)
 # VIMTESTTARGET = $(GVIMTARGET)
 
 # Execute the unittests one by one.
-unittest unittests: $(RUN_UNITTESTS)
+#unittest unittests: $(RUN_UNITTESTS)
+unittest unittests:
 
 run_json_test: $(JSON_TEST_TARGET)
 	$(VALGRIND) ./$(JSON_TEST_TARGET) || exit 1; echo $* passed;

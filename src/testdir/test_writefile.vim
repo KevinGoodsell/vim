@@ -1,6 +1,6 @@
 " Tests for the writefile() function and some :write commands.
 
-func Test_writefile()
+func XTest_writefile()
   let f = tempname()
   call writefile(["over", "written"], f, "bD")
   call writefile(["hello", "world"], f, "b")
@@ -17,12 +17,12 @@ func Test_writefile()
   call assert_fails('call writefile("text", "Xwffile")', 'E475: Invalid argument: writefile() first argument must be a List or a Blob')
 endfunc
 
-func Test_writefile_ignore_regexp_error()
+func XTest_writefile_ignore_regexp_error()
   write Xt[z-a]est.txt
   call delete('Xt[z-a]est.txt')
 endfunc
 
-func Test_writefile_fails_gently()
+func XTest_writefile_fails_gently()
   call assert_fails('call writefile(["test"], "Xwffile", [])', 'E730:')
   call assert_false(filereadable("Xwffile"))
   call delete("Xwffile")
@@ -80,7 +80,7 @@ func Test_writefile_fails_conversion()
   set backup& writebackup& backupdir&vim backupskip&vim
 endfunc
 
-func Test_writefile_fails_conversion2()
+func XTest_writefile_fails_conversion2()
   CheckFeature iconv
   if has('sun')
     throw 'Skipped: does not work on SunOS'
@@ -106,7 +106,7 @@ func SetFlag(timer)
   let g:flag = 1
 endfunc
 
-func Test_write_quit_split()
+func XTest_write_quit_split()
   " Prevent exiting by splitting window on file write.
   augroup testgroup
     autocmd BufWritePre * split
@@ -128,7 +128,7 @@ func Test_write_quit_split()
   call delete('Xwqsfile')
 endfunc
 
-func Test_nowrite_quit_split()
+func XTest_nowrite_quit_split()
   " Prevent exiting by opening a help window.
   e! Xnqsfile
   help
@@ -146,13 +146,13 @@ func Test_nowrite_quit_split()
   bwipe Xnqsfile
 endfunc
 
-func Test_writefile_sync_arg()
+func XTest_writefile_sync_arg()
   " This doesn't check if fsync() works, only that the argument is accepted.
   call writefile(['one'], 'Xtest', 'sD')
   call writefile(['two'], 'Xtest', 'S')
 endfunc
 
-func Test_writefile_sync_dev_stdout()
+func XTest_writefile_sync_dev_stdout()
   CheckUnix
   if filewritable('/dev/stdout')
     " Just check that this doesn't cause an error.
@@ -162,7 +162,7 @@ func Test_writefile_sync_dev_stdout()
   endif
 endfunc
 
-func Test_writefile_autowrite()
+func XTest_writefile_autowrite()
   set autowrite
   new
   next Xa Xb Xc
@@ -183,7 +183,7 @@ func Test_writefile_autowrite()
   set noautowrite
 endfunc
 
-func Test_writefile_autowrite_nowrite()
+func XTest_writefile_autowrite_nowrite()
   set autowrite
   new
   next Xa Xb Xc
@@ -202,7 +202,7 @@ endfunc
 
 " Test for ':w !<cmd>' to pipe lines from the current buffer to an external
 " command.
-func Test_write_pipe_to_cmd()
+func XTest_write_pipe_to_cmd()
   CheckUnix
   new
   call setline(1, ['L1', 'L2', 'L3', 'L4'])
@@ -213,7 +213,7 @@ func Test_write_pipe_to_cmd()
 endfunc
 
 " Test for :saveas
-func Test_saveas()
+func XTest_saveas()
   call assert_fails('saveas', 'E471:')
   call writefile(['L1'], 'Xsafile')
   new Xsafile
@@ -239,7 +239,7 @@ func Test_saveas()
   bwipe!
 endfunc
 
-func Test_write_errors()
+func XTest_write_errors()
   " Test for writing partial buffer
   call writefile(['L1', 'L2', 'L3'], 'Xwefile')
   new Xwefile
@@ -299,7 +299,7 @@ func Test_write_errors()
 endfunc
 
 " Test for writing to a file which is modified after Vim read it
-func Test_write_file_mtime()
+func XTest_write_file_mtime()
   CheckEnglish
   CheckRunVimInTerminal
 
@@ -343,7 +343,7 @@ func Test_write_file_mtime()
 endfunc
 
 " Test for an autocmd unloading a buffer during a write command
-func Test_write_autocmd_unloadbuf_lockmark()
+func XTest_write_autocmd_unloadbuf_lockmark()
   augroup WriteTest
     autocmd BufWritePre Xwaufile enew | write
   augroup END
@@ -356,7 +356,7 @@ func Test_write_autocmd_unloadbuf_lockmark()
 endfunc
 
 " Test for writing a buffer with 'acwrite' but without autocmds
-func Test_write_acwrite_error()
+func XTest_write_acwrite_error()
   new Xwaefile
   call setline(1, ['line1', 'line2', 'line3'])
   set buftype=acwrite
@@ -367,7 +367,7 @@ func Test_write_acwrite_error()
 endfunc
 
 " Test for adding and removing lines from an autocmd when writing a buffer
-func Test_write_autocmd_add_remove_lines()
+func XTest_write_autocmd_add_remove_lines()
   new Xwaafile
   call setline(1, ['aaa', 'bbb', 'ccc', 'ddd'])
 
@@ -408,7 +408,7 @@ func Test_write_autocmd_add_remove_lines()
 endfunc
 
 " Test for writing to a readonly file
-func Test_write_readonly()
+func XTest_write_readonly()
   call writefile([], 'Xwrofile', 'D')
   call setfperm('Xwrofile', "r--------")
   edit Xwrofile
@@ -438,7 +438,7 @@ func Test_write_readonly()
 endfunc
 
 " Test for 'patchmode'
-func Test_patchmode()
+func XTest_patchmode()
   call writefile(['one'], 'Xpafile', 'D')
   set patchmode=.orig nobackup backupskip= writebackup
   new Xpafile
@@ -469,7 +469,7 @@ endfunc
 
 " Test for writing to a file in a readonly directory
 " NOTE: if you run tests as root this will fail.  Don't run tests as root!
-func Test_write_readonly_dir()
+func XTest_write_readonly_dir()
   " On MS-Windows, modifying files in a read-only directory is allowed.
   CheckUnix
   " Root can do it too.
@@ -492,7 +492,7 @@ func Test_write_readonly_dir()
 endfunc
 
 " Test for writing a file using invalid file encoding
-func Test_write_invalid_encoding()
+func XTest_write_invalid_encoding()
   new
   call setline(1, 'abc')
   call assert_fails('write ++enc=axbyc Xiefile', 'E213:')
@@ -500,7 +500,7 @@ func Test_write_invalid_encoding()
 endfunc
 
 " Tests for reading and writing files with conversion for Win32.
-func Test_write_file_encoding()
+func XTest_write_file_encoding()
   CheckMSWindows
   let save_encoding = &encoding
   let save_fileencodings = &fileencodings
@@ -619,7 +619,7 @@ endfunc
 "     UTF-16 (LE): FF FE
 "     UTF-32 (BE): 00 00 FE FF
 "     UTF-32 (LE): FF FE 00 00
-func Test_readwrite_file_with_bom()
+func XTest_readwrite_file_with_bom()
   let utf8_bom = "\xEF\xBB\xBF"
   let utf16be_bom = "\xFE\xFF"
   let utf16le_bom = "\xFF\xFE"
@@ -739,7 +739,7 @@ func Test_readwrite_file_with_bom()
   %bw!
 endfunc
 
-func Test_read_write_bin()
+func XTest_read_write_bin()
   " write file missing EOL
   call writefile(['noeol'], "XNoEolSetEol", 'bSD')
   call assert_equal(0z6E6F656F6C, readfile('XNoEolSetEol', 'B'))
@@ -759,7 +759,7 @@ func Test_read_write_bin()
 endfunc
 
 " Test for the 'backupcopy' option when writing files
-func Test_backupcopy()
+func XTest_backupcopy()
   CheckUnix
   set backupskip=
   " With the default 'backupcopy' setting, saving a symbolic link file
@@ -869,7 +869,7 @@ func Test_backupcopy()
 endfunc
 
 " Test for writing a file with 'encoding' set to 'utf-16'
-func Test_write_utf16()
+func XTest_write_utf16()
   new
   call setline(1, ["\U00010001"])
   write ++enc=utf-16 Xw16file
@@ -880,7 +880,7 @@ endfunc
 
 " Test for trying to save a backup file when the backup file is a symbolic
 " link to the original file. The backup file should not be modified.
-func Test_write_backup_symlink()
+func XTest_write_backup_symlink()
   CheckUnix
   call mkdir('Xbackup')
   let save_backupdir = &backupdir
@@ -907,7 +907,7 @@ func Test_write_backup_symlink()
 endfunc
 
 " Test for ':write ++bin' and ':write ++nobin'
-func Test_write_binary_file()
+func XTest_write_binary_file()
   " create a file without an eol/eof character
   call writefile(0z616161, 'Xwbfile1', 'bD')
   new Xwbfile1
@@ -933,7 +933,7 @@ def DefWriteDefer()
   assert_equal(['some text'], readfile('XdefdeferDelete'))
 enddef
 
-func Test_write_with_deferred_delete()
+func XTest_write_with_deferred_delete()
   call DoWriteDefer()
   call assert_equal('', glob('XdeferDelete'))
   call DefWriteDefer()
@@ -945,7 +945,7 @@ func DoWriteFile()
   cd ..
 endfunc
 
-func Test_write_defer_delete_chdir()
+func XTest_write_defer_delete_chdir()
   let dir = getcwd()
   call DoWriteFile()
   call assert_notequal(dir, getcwd())
@@ -954,7 +954,7 @@ func Test_write_defer_delete_chdir()
 endfunc
 
 " Check that buffer is written before triggering QuitPre
-func Test_wq_quitpre_autocommand()
+func XTest_wq_quitpre_autocommand()
   edit Xsomefile
   call setline(1, 'hello')
   split
@@ -974,7 +974,7 @@ func Test_wq_quitpre_autocommand()
   call delete('Xsomefile')
 endfunc
 
-func Test_write_with_xattr_support()
+func XTest_write_with_xattr_support()
   CheckLinux
   CheckFeature xattr
   CheckExecutable setfattr

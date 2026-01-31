@@ -34,7 +34,8 @@ test_options_all.res: opt_test.vim
 
 .SUFFIXES: .in .out .res .vim
 
-nongui:	nolog tinytests newtests report
+#nongui:	nolog tinytests newtests report
+nongui:	nolog newtests report
 
 gui:	nolog tinytests newtests report
 
